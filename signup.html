@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vitalis — Create Account</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0B2545;
+    --navy-deep:#071A33;
+    --paper:#F7F9FB;
+    --teal:#1B998B;
+    --teal-bright:#28C9B7;
+    --coral:#E8615C;
+    --slate:#5C6B7A;
+    --mint:#DCEFE9;
+    --line:rgba(255,255,255,0.14);
+    --line-dark:rgba(11,37,69,0.12);
+    --radius:10px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{height:100%;}
+  body{
+    font-family:'Inter',sans-serif;
+    background:var(--paper);
+    color:var(--navy);
+    display:flex;
+    min-height:100vh;
+  }
+  ::selection{ background:var(--teal-bright); color:var(--navy-deep); }
+
+  /* ---------- LEFT: BRAND / MONITOR PANEL ---------- */
+  .panel{
+    position:relative;
+    flex:1.15;
+    background:radial-gradient(120% 140% at 15% 0%, #0F3157 0%, var(--navy) 45%, var(--navy-deep) 100%);
+    color:#fff;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding:56px 56px 44px;
+    overflow:hidden;
+    min-height:100vh;
+  }
+  .panel::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:34px 34px;
+    opacity:0.35;
+    mask-image:radial-gradient(120% 90% at 30% 20%, black 10%, transparent 75%);
+  }
+  .brand{
+    position:relative;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    font-size:20px;
+    letter-spacing:0.01em;
+  }
+  .brand-mark{
+    width:34px; height:34px;
+    border-radius:9px;
+    background:linear-gradient(135deg, var(--teal-bright), var(--teal));
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 0 0 1px rgba(255,255,255,0.15), 0 8px 20px -6px rgba(27,153,139,0.6);
+  }
+  .brand-mark svg{ width:18px; height:18px; }
+
+  .hero{ position:relative; margin-top:auto; }
+  .hero .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--teal-bright);
+    margin-bottom:18px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .eyebrow .dot{
+    width:7px; height:7px; border-radius:50%;
+    background:var(--teal-bright);
+    box-shadow:0 0 0 0 rgba(40,201,183,0.6);
+    animation:pulse-dot 1.8s infinite;
+  }
+  @keyframes pulse-dot{
+    0%{ box-shadow:0 0 0 0 rgba(40,201,183,0.55);}
+    70%{ box-shadow:0 0 0 8px rgba(40,201,183,0);}
+    100%{ box-shadow:0 0 0 0 rgba(40,201,183,0);}
+  }
+  .hero h1{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:clamp(30px, 3.4vw, 44px);
+    line-height:1.08;
+    letter-spacing:-0.01em;
+    max-width:9.5ch;
+  }
+  .hero p{
+    margin-top:16px;
+    max-width:38ch;
+    color:rgba(255,255,255,0.68);
+    font-size:15px;
+    line-height:1.6;
+  }
+
+  /* ECG strip */
+  .ecg-wrap{
+    position:relative;
+    margin-top:34px;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    padding:16px 0;
+  }
+  .ecg-wrap svg{ display:block; width:100%; height:64px; }
+  .ecg-path{
+    fill:none;
+    stroke:var(--teal-bright);
+    stroke-width:2;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    filter:drop-shadow(0 0 6px rgba(40,201,183,0.55));
+    stroke-dasharray:1400;
+    stroke-dashoffset:1400;
+    animation:draw-ecg 3.2s linear infinite;
+  }
+  @keyframes draw-ecg{
+    0%{ stroke-dashoffset:1400; }
+    60%{ stroke-dashoffset:0; }
+    100%{ stroke-dashoffset:-40; }
+  }
+
+  .steps-row{
+    position:relative;
+    display:flex;
+    gap:10px;
+    margin-top:22px;
+    font-family:'IBM Plex Mono', monospace;
+  }
+  .step-chip{
+    flex:1;
+    padding:10px 12px;
+    border-radius:8px;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.03);
+  }
+  .step-chip.active{
+    border-color:var(--teal-bright);
+    background:rgba(40,201,183,0.08);
+  }
+  .step-chip .num{
+    font-size:10.5px;
+    color:rgba(255,255,255,0.42);
+    letter-spacing:0.08em;
+  }
+  .step-chip.active .num{ color:var(--teal-bright); }
+  .step-chip .lbl{
+    margin-top:3px;
+    font-size:12px;
+    color:rgba(255,255,255,0.85);
+    font-family:'Inter',sans-serif;
+  }
+
+  .panel-foot{
+    position:relative;
+    margin-top:40px;
+    font-size:12px;
+    color:rgba(255,255,255,0.4);
+    display:flex;
+    justify-content:space-between;
+    font-family:'IBM Plex Mono', monospace;
+  }
+
+  /* ---------- RIGHT: FORM ---------- */
+  .formside{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:40px;
+  }
+  .formcard{ width:100%; max-width:400px; }
+  .formcard h2{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:26px;
+    font-weight:600;
+    letter-spacing:-0.01em;
+  }
+  .formcard .sub{
+    margin-top:8px;
+    color:var(--slate);
+    font-size:14.5px;
+    line-height:1.5;
+  }
+  .formcard .sub a{ color:var(--teal); font-weight:600; text-decoration:none; }
+  .formcard .sub a:hover{ text-decoration:underline; }
+
+  form{ margin-top:26px; display:flex; flex-direction:column; gap:16px; }
+  .field-pair{ display:flex; gap:12px; }
+  .field-pair .field{ flex:1; }
+  .field label{
+    display:block;
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--navy);
+    margin-bottom:7px;
+    letter-spacing:0.01em;
+  }
+  .field .hint{
+    font-weight:400;
+    color:var(--slate);
+    font-size:11.5px;
+    margin-left:6px;
+  }
+  .input-wrap{ position:relative; }
+  .input-wrap svg{
+    position:absolute; left:13px; top:50%; transform:translateY(-50%);
+    width:16px; height:16px; color:var(--slate); pointer-events:none;
+  }
+  input[type="email"], input[type="password"], input[type="text"], select{
+    width:100%;
+    font-family:'Inter',sans-serif;
+    font-size:14.5px;
+    padding:12px 14px 12px 40px;
+    border-radius:var(--radius);
+    border:1.5px solid var(--line-dark);
+    background:#fff;
+    color:var(--navy);
+    outline:none;
+    transition:border-color .15s ease, box-shadow .15s ease;
+    appearance:none;
+  }
+  select{
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235C6B7A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m6 9 6 6 6-6'/></svg>");
+    background-repeat:no-repeat;
+    background-position:right 14px center;
+    background-size:16px;
+    padding-right:36px;
+    color:var(--navy);
+  }
+  input::placeholder{ color:#A6B0BC; }
+  input:focus, select:focus{
+    border-color:var(--teal);
+    box-shadow:0 0 0 4px rgba(27,153,139,0.14);
+  }
+  .toggle-eye{
+    position:absolute; right:12px; top:50%; transform:translateY(-50%);
+    background:none; border:none; cursor:pointer; padding:4px;
+    color:var(--slate); display:flex;
+  }
+  .toggle-eye:focus-visible, button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible{
+    outline:2px solid var(--teal); outline-offset:2px;
+  }
+
+  /* password strength */
+  .pw-meter{
+    display:flex; gap:4px; margin-top:8px;
+  }
+  .pw-meter .bar{
+    flex:1; height:4px; border-radius:2px;
+    background:var(--line-dark);
+    transition:background .2s ease;
+  }
+  .pw-hint{
+    margin-top:6px;
+    font-size:11.5px;
+    color:var(--slate);
+  }
+
+  .checkbox-row{
+    display:flex; align-items:flex-start; gap:9px;
+    font-size:12.5px;
+    color:var(--slate);
+    line-height:1.5;
+  }
+  .checkbox-row input{ width:15px; height:15px; margin-top:2px; accent-color:var(--teal); cursor:pointer; flex-shrink:0; }
+  .checkbox-row a{ color:var(--teal); font-weight:600; text-decoration:none; }
+  .checkbox-row a:hover{ text-decoration:underline; }
+
+  .submit{
+    margin-top:4px;
+    background:var(--navy);
+    color:#fff;
+    border:none;
+    padding:13px 16px;
+    border-radius:var(--radius);
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:14.5px;
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    transition:background .15s ease, transform .15s ease;
+  }
+  .submit:hover{ background:#123157; }
+  .submit:active{ transform:scale(0.99); }
+  .submit svg{ width:16px; height:16px; }
+
+  .divider{
+    display:flex; align-items:center; gap:12px;
+    margin:20px 0 4px;
+    color:var(--slate);
+    font-size:12px;
+  }
+  .divider::before, .divider::after{
+    content:""; flex:1; height:1px; background:var(--line-dark);
+  }
+
+  .sso{
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    border:1.5px solid var(--line-dark);
+    background:#fff;
+    padding:11px 16px;
+    border-radius:var(--radius);
+    font-size:13.5px;
+    font-weight:500;
+    color:var(--navy);
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .sso:hover{ border-color:var(--teal); background:var(--mint); }
+  .sso svg{ width:16px; height:16px; }
+
+  .compliance{
+    margin-top:22px;
+    display:flex; align-items:center; gap:8px;
+    font-size:11.5px;
+    color:var(--slate);
+    font-family:'IBM Plex Mono', monospace;
+    letter-spacing:0.01em;
+  }
+  .compliance svg{ width:13px; height:13px; color:var(--teal); flex-shrink:0; }
+
+  @media (max-width: 880px){
+    body{ flex-direction:column; }
+    .panel{ min-height:auto; padding:36px 28px 32px; }
+    .hero h1{ max-width:none; }
+    .steps-row{ flex-wrap:wrap; }
+    .field-pair{ flex-direction:column; gap:16px; }
+    .formside{ padding:32px 24px 48px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .ecg-path{ animation:none; stroke-dashoffset:0; }
+    .eyebrow .dot{ animation:none; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- LEFT PANEL -->
+  <div class="panel">
+    <div class="brand">
+      <div class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"/></svg>
+      </div>
+      Vitalis
+    </div>
+
+    <div class="hero">
+      <div class="eyebrow"><span class="dot"></span>New clinician onboarding</div>
+      <h1>Get your team on the same chart.</h1>
+      <p>Create your workspace account to start tracking vitals, orders, and care notes with your team, in one place.</p>
+
+      <div class="ecg-wrap">
+        <svg viewBox="0 0 700 64" preserveAspectRatio="none">
+          <path class="ecg-path" d="M0,32 L60,32 L80,32 L92,10 L104,54 L116,32 L140,32 L156,32 L168,20 L180,32 L200,32
+                                     L260,32 L280,32 L292,10 L304,54 L316,32 L340,32 L356,32 L368,20 L380,32 L400,32
+                                     L460,32 L480,32 L492,10 L504,54 L516,32 L540,32 L556,32 L568,20 L580,32 L600,32 L700,32"/>
+        </svg>
+      </div>
+
+      <div class="steps-row">
+        <div class="step-chip active">
+          <div class="num">STEP 1</div>
+          <div class="lbl">Your details</div>
+        </div>
+        <div class="step-chip">
+          <div class="num">STEP 2</div>
+          <div class="lbl">Verify email</div>
+        </div>
+        <div class="step-chip">
+          <div class="num">STEP 3</div>
+          <div class="lbl">Join ward</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-foot">
+      <span>SYS.VITALIS/2026</span>
+      <span>ENCRYPTED · HIPAA-READY</span>
+    </div>
+  </div>
+
+  <!-- RIGHT: FORM -->
+  <div class="formside">
+    <div class="formcard">
+      <h2>Create your account</h2>
+      <p class="sub">Already have a workspace? <a href="login.html">Sign in</a></p>
+
+      <form onsubmit="return false;">
+        <div class="field-pair">
+          <div class="field">
+            <label for="firstname">First name</label>
+            <div class="input-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+              <input type="text" id="firstname" name="firstname" placeholder="Jordan" autocomplete="given-name" required>
+            </div>
+          </div>
+          <div class="field">
+            <label for="lastname">Last name</label>
+            <div class="input-wrap">
+              <input type="text" id="lastname" name="lastname" placeholder="Rivera" autocomplete="family-name" style="padding-left:14px" required>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="email">Work email <span class="hint">hospital or clinic domain</span></label>
+          <div class="input-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 6 9 6 9-6"/><rect x="3" y="4" width="18" height="16" rx="2"/></svg>
+            <input type="email" id="email" name="email" placeholder="j.rivera@stanfordhealth.org" autocomplete="email" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="role">Clinical role</label>
+          <div class="input-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2v4M15 2v4M4 10h16M4 6h16v14H4z"/></svg>
+            <select id="role" name="role" required>
+              <option value="" disabled selected>Select your role</option>
+              <option>Physician</option>
+              <option>Nurse</option>
+              <option>Nurse Practitioner</option>
+              <option>Care Coordinator</option>
+              <option>Administrator</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <div class="input-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+            <input type="password" id="password" name="password" placeholder="Create a strong password" autocomplete="new-password" oninput="checkStrength(this.value)" required>
+            <button type="button" class="toggle-eye" aria-label="Show password" onclick="togglePw(this)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          <div class="pw-meter">
+            <div class="bar" id="bar1"></div>
+            <div class="bar" id="bar2"></div>
+            <div class="bar" id="bar3"></div>
+            <div class="bar" id="bar4"></div>
+          </div>
+          <div class="pw-hint" id="pwhint">Use 8+ characters with a number and a symbol.</div>
+        </div>
+
+        <label class="checkbox-row">
+          <input type="checkbox" id="terms" required>
+          <span>I agree to the <a href="#">Terms of Service</a> and confirm I'm authorized to access patient data under my institution's policies.</span>
+        </label>
+
+        <button type="submit" class="submit">
+          Create account
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </form>
+
+      <div class="divider">or continue with</div>
+      <button type="button" class="sso" onclick="alert('Wire this up to your hospital SSO provider (Okta, Azure AD, etc).')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Institutional SSO
+      </button>
+
+      <div class="compliance">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 8.7 9 10 5.2-1.3 9-5 9-10V6l-9-4Z"/></svg>
+        Data encrypted end-to-end · access logged for audit
+      </div>
+    </div>
+  </div>
+
+<script>
+  function togglePw(btn){
+    const input = document.getElementById('password');
+    const isPw = input.type === 'password';
+    input.type = isPw ? 'text' : 'password';
+    btn.setAttribute('aria-label', isPw ? 'Hide password' : 'Show password');
+  }
+
+  function checkStrength(value){
+    const bars = [document.getElementById('bar1'), document.getElementById('bar2'), document.getElementById('bar3'), document.getElementById('bar4')];
+    const hint = document.getElementById('pwhint');
+    let score = 0;
+    if(value.length >= 8) score++;
+    if(/[A-Z]/.test(value) && /[a-z]/.test(value)) score++;
+    if(/[0-9]/.test(value)) score++;
+    if(/[^A-Za-z0-9]/.test(value)) score++;
+
+    const colors = ['#E8615C', '#E8615C', '#E8A85C', '#1B998B'];
+    const labels = ['Too weak', 'Weak', 'Good', 'Strong password'];
+
+    bars.forEach((bar, i) => {
+      bar.style.background = i < score ? colors[Math.max(score-1,0)] : 'rgba(11,37,69,0.12)';
+    });
+    hint.textContent = value.length === 0 ? 'Use 8+ characters with a number and a symbol.' : labels[Math.max(score-1,0)];
+  }
+</script>
+</body>
+</html>
